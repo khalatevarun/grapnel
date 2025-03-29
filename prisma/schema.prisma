@@ -15,11 +15,41 @@ model User {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
-    clerkId String @unique
     imageUrl String?
     firstName String?
     lastName String?
 
     emailAddress String @unique
     credits Int @default(150)
+
+    userToProjects UserToProjects[] 
+
+}
+
+
+model Project {
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    name String
+    githubUrl String
+
+    deletedAt DateTime?
+
+    userToProjects UserToProjects[] 
+}
+
+model UserToProjects {
+    id String @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    userId String
+    user User @relation(fields: [userId], references: [id])
+
+    projectId String
+    project Project @relation(fields: [projectId], references: [id])
+
+    @@unique([userId, projectId]) 
 }

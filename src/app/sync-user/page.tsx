@@ -25,7 +25,7 @@ const SyncUSer = async () => {
             lastName: user.lastName,
         },
         create: {
-            clerkId: user.id,
+            id: userId,
             emailAddress: user.emailAddresses[0].emailAddress,
             imageUrl: user.imageUrl,
             firstName: user.firstName,
