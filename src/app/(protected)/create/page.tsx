@@ -1,6 +1,7 @@
 'use client'
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useRefetch } from "@/hooks/use-refetch";
 import { api } from "@/trpc/react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -13,7 +14,9 @@ type FormInput = {
 
 const CreatePage = () => {
     const { register, handleSubmit, reset } = useForm<FormInput>();
-    const createProject = api.project.createProject.useMutation()
+    const createProject = api.project.createProject.useMutation();
+    const refetch = useRefetch();
+
 
     const onSubmit = (data: FormInput) => {
            createProject.mutate({
@@ -22,7 +25,8 @@ const CreatePage = () => {
             githubToken: data.githubToken 
            },{
             onSuccess:()=>{
-                toast.success('Project created successfully')
+                toast.success('Project created successfully');
+                refetch();
             },
             onError:()=>{
                 toast.error('Failed to create project')

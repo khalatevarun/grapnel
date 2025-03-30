@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "@/components/ui/sidebar"
+import { useProject } from "@/hooks/use-project"
 import { cn } from "@/lib/utils"
 import { Anchor, Bot, CreditCard, LayoutDashboard, Plus, Presentation } from "lucide-react"
 import Link from "next/link"
@@ -28,26 +29,12 @@ const items = [
        },
 ]
 
-const projects = [
-    {
-        name: "Project 1",
-    },
-    {
-        name: "Project 1",
-    },
-    {
-        name: "Project 1",
-    },
-    {
-        name: "Project 1",
-    }
-]
-
 
 export function AppSiderbar(){
 
     const pathname = usePathname();
     const { open } = useSidebar();
+    const { projects, projectId, setProjectId } = useProject();
 
     return (
         <Sidebar collapsible="icon" variant="floating">
@@ -94,15 +81,15 @@ export function AppSiderbar(){
                 </SidebarGroupLabel>
                 <SidebarGroupContent>
                     <SidebarMenu>
-                        {projects.map((project, index)=>{
+                        {projects?.map((project, index)=>{
                             return (
                                 <SidebarMenuItem key={index}>
                                     <SidebarMenuButton asChild>
-                                        <div>
+                                        <div onClick={()=> setProjectId(project.id)} className="cursor-pointer">
                                             <div className={cn(
                                                 'rounded-sm border size-6 flex items-center justify-center text-sm bg-white text-primary',
                                                 {
-                                                    'bg-primary text-white': true
+                                                    'bg-primary text-white': project.id === projectId
                                                 })}>
                                                 {project.name[0]}
                                             </div>
